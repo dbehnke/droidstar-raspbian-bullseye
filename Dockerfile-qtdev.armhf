@@ -1,0 +1,15 @@
+FROM raspbian:bullseye
+
+WORKDIR /work
+RUN apt update && apt install -y vim wget gnupg2 && apt-get clean -y
+RUN echo "deb http://raspbian.raspberrypi.org/raspbian/ bullseye main contrib non-free rpi" > /etc/apt/sources.list
+RUN echo "deb http://archive.raspberrypi.org/debian/ bullseye main" >> /etc/apt/sources.list
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9165938D90FDDD2E
+RUN wget http://archive.raspberrypi.org/debian/raspberrypi.gpg.key && \
+    apt-key add raspberrypi.gpg.key && rm raspberrypi.gpg.key
+RUN apt update && apt upgrade -y && apt-get install build-essential libraspberrypi-dev -y && apt-get clean -y
+
+# install qt
+RUN apt install -y git libqt5*-dev qtmultimedia5-dev qtquickcontrols2-5-dev qtbase5-dev qt5-qmake && apt-get clean -y
+
+
